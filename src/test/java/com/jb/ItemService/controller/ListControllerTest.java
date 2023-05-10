@@ -32,12 +32,11 @@ class ListControllerTest {
     
     @Test
     public void contextLoads() throws Exception {
-        when(service.test(1)).thenReturn("Hi user 1");
-        
+        when(service.test("Jean")).thenReturn("Hi user Jean");
         this.mockMvc
-                .perform(get("/api/v1/lists/{id}","1"))
+                .perform(get("/api/v1/test/{text}","Jean"))
                 .andDo(print()).andExpect(status().isOk())
-                .andExpect(content().string(containsString("Hi user 1")));
+                .andExpect(content().string(containsString("Hi user Jean")));
         
     }
 //    @BeforeEach

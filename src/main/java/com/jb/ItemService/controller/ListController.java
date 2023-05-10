@@ -12,9 +12,14 @@ public class ListController {
         this.taskListService = taskListService;
     }
     
+    
+    @GetMapping("/api/v1/test/{text}")
+    public String test(@PathVariable String text) {
+        return taskListService.test(text);
+    }
     @GetMapping("/api/v1/lists/{id}")
     public String get(@PathVariable int id) {
-        return taskListService.test(id);
+        return null;
     }
     
     @PostMapping("/api/v1/lists")
