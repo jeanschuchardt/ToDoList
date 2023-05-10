@@ -16,11 +16,11 @@ public class TaskItem  extends BaseEntity{
     private String description;
     
     @ManyToOne
-    @JoinColumn(name = "taskListId",nullable = false)
+    @JoinColumn(name = "id",nullable = false)
     private TaskList taskList;
     
     @ManyToOne
-    @JoinColumn(name = "userId")
+    @JoinColumn(name = "id")
     private User assignedUser;
     
 }

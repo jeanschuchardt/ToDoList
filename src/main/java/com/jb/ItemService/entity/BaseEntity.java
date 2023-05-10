@@ -10,6 +10,7 @@ import java.util.Date;
 @MappedSuperclass
 public abstract class BaseEntity {
     
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")

@@ -3,7 +3,6 @@ package com.jb.ItemService.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
-
 import java.util.Set;
 
 @Entity
@@ -13,9 +12,9 @@ public class TaskList extends BaseEntity {
     private String name;
     
     @ManyToOne
-    @JoinColumn(name = "userId",nullable = false)
+    @JoinColumn(name = "id",nullable = false)
     private User user;
-
+    
     @OneToMany(mappedBy = "taskList")
     private Set<TaskItem> items;
     
