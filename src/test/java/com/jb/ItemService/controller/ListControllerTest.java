@@ -1,29 +1,43 @@
 package com.jb.ItemService.controller;
 
+import com.jb.ItemService.entity.TaskList;
+import com.jb.ItemService.service.TaskListService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.containsString;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@SpringBootTest
-@AutoConfigureMockMvc
+//@SpringBootTest
+//@AutoConfigureMockMvc
+@WebMvcTest(ListController.class)
 class ListControllerTest {
     
     @Autowired
     private MockMvc mockMvc;
     
+    
+    @MockBean
+    private TaskListService service;
+    
+    
     @Test
-    public void contextLoads() throws Exception{
-        this.mockMvc.perform(get("/api/v1/lists/1")).andDo(print()).andExpect(status().isOk())
-                    .andExpect(content().string(containsString("1")));
+    public void contextLoads() throws Exception {
+        when(service.test(1)).thenReturn("Hi user 1");
+        
+        this.mockMvc
+                .perform(get("/api/v1/lists/{id}","1"))
+                .andDo(print()).andExpect(status().isOk())
+                .andExpect(content().string(containsString("Hi user 1")));
         
     }
 //    @BeforeEach

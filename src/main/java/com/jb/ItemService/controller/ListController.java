@@ -1,13 +1,20 @@
 package com.jb.ItemService.controller;
 
+import com.jb.ItemService.service.TaskListService;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class ListController {
     
+    private final TaskListService taskListService;
+    
+    public ListController(TaskListService taskListService) {
+        this.taskListService = taskListService;
+    }
+    
     @GetMapping("/api/v1/lists/{id}")
-    public int get(@PathVariable int id) {
-        return id;
+    public String get(@PathVariable int id) {
+        return taskListService.test(id);
     }
     
     @PostMapping("/api/v1/lists")
