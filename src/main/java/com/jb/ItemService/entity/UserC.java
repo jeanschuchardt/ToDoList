@@ -2,14 +2,11 @@ package com.jb.ItemService.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
 import lombok.Data;
-
-import java.util.Set;
 
 @Entity
 @Data
-public class User extends BaseEntity {
+public class UserC extends BaseEntity {
     @Column
     private String name;
     @Column
@@ -19,10 +16,10 @@ public class User extends BaseEntity {
     @Column
     private String password;
     
-    @OneToMany(mappedBy = "user")
-    private Set<TaskList> taskList;
+//    @OneToMany(mappedBy = "user")
+//    private Set<TaskList> taskList;
     
-    @OneToMany(mappedBy = "assignedUser")
-    private Set<TaskItem> itemsAssigned;
+//    @OneToMany(mappedBy = "assignedUser")
+//    private Set<TaskItem> itemsAssigned;
     
 }
