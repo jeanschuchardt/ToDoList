@@ -18,9 +18,11 @@ public class ListController {
     public String test(@PathVariable String text) {
         return taskListService.test(text);
     }
+    
     @GetMapping("/api/v1/lists/{id}")
-    public String get(@PathVariable int id) {
-        return null;
+    public TaskList getListById(@PathVariable int id) {
+        TaskList listById = taskListService.getListById(id);
+        return listById;
     }
     
     @PostMapping("/api/v1/lists")
@@ -32,7 +34,7 @@ public class ListController {
     @DeleteMapping("/api/v1/lists/{id}")
     public void delete(@PathVariable int id) {
         taskListService.delete(id);
-    
+        
     }
 }
  /*

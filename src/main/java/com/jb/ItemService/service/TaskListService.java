@@ -44,4 +44,13 @@ public class TaskListService {
         taskItemService.deleteItemByListId(id);
         
     }
+    
+    public TaskList getListById(int id) {
+        Optional<TaskList> byIdAndIsArchived = taskListRepository.findByIdAndIsArchived(id, false);
+        if(!byIdAndIsArchived.isPresent()){
+            throw new RuntimeException("not found");
+        }
+        
+        return byIdAndIsArchived.get();
+    }
 }
