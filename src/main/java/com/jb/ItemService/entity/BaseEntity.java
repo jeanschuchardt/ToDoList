@@ -1,6 +1,7 @@
 package com.jb.ItemService.entity;
 
 import jakarta.persistence.*;
+import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;
 
 import org.springframework.data.annotation.LastModifiedDate;
@@ -8,6 +9,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 import java.util.Date;
 
 @MappedSuperclass
+@Data
 public abstract class BaseEntity {
     
     
@@ -33,7 +35,7 @@ public abstract class BaseEntity {
     private Integer updatedBy;
     
     @Column
-    private int isArchived;
+    private Boolean isArchived;
     
     
  

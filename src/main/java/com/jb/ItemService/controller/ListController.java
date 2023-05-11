@@ -1,5 +1,6 @@
 package com.jb.ItemService.controller;
 
+import com.jb.ItemService.entity.TaskList;
 import com.jb.ItemService.service.TaskListService;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,12 +24,14 @@ public class ListController {
     }
     
     @PostMapping("/api/v1/lists")
-    public void post(@RequestBody String name) {
-    
+    public TaskList post(@RequestBody String name) {
+        TaskList list = taskListService.createList(name);
+        return list;
     }
     
     @DeleteMapping("/api/v1/lists/{id}")
     public void delete(@PathVariable int id) {
+        taskListService.delete(id);
     
     }
 }
