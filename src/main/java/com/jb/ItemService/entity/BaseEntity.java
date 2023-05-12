@@ -35,8 +35,17 @@ public abstract class BaseEntity {
     private Integer updatedBy;
     
     @Column
-    private Boolean isArchived;
+    private Boolean isArchived = false;
+    
+    @PrePersist
+    public void setCreationDate() {
+        this.dateCreated = new Date();
+    }
+    
+    @PreUpdate
+    public void setChangeDate() {
+        this.dateUpdated = new Date();
+    }
     
     
- 
 }
