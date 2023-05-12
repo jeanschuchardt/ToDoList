@@ -20,7 +20,7 @@ public class UserController {
     }
     
     @PostMapping("/api/v1/users")
-    public User createUser(@RequestBody UserRequestDTO userRequest) {
+    public String createUser(@RequestBody UserRequestDTO userRequest) {
         return userService.createUser(userRequest);
         
         

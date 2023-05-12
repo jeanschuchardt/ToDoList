@@ -1,34 +1,42 @@
 package com.jb.ItemService.service;
 
+import com.jb.ItemService.entity.Role;
 import com.jb.ItemService.entity.User;
 import com.jb.ItemService.exception.ServiceException;
 import com.jb.ItemService.record.UserRequestDTO;
 import com.jb.ItemService.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class UserService {
     
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
     
-    public UserService(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
-    
-    public User createUser(UserRequestDTO userRequest) {
+    private final JwtService jwtService;
+    public String createUser(UserRequestDTO userRequest) {
         User user = new User();
         user.setName(userRequest.name());
         user.setEmail(userRequest.email());
-        user.setPassword(userRequest.password());
+        user.setPassword(passwordEncoder.encode(userRequest.password()));
+        user.setRole(Role.USER);
+    
+        User save = userRepository.save(user);
         
-        return userRepository.save(user);
+        var jwkToken =  jwtService.generateToken(user);
+        
+        return  jwkToken;
+    
     }
     
     public User updateUser(int userid, UserRequestDTO userRequest) {
         User user = getUser(userid);
-    
-    
+        
+        
         user.setName(userRequest.name());
         user.setEmail(userRequest.email());
         user.setPassword(userRequest.password());
@@ -38,7 +46,7 @@ public class UserService {
     
     public User getUser(int userid) {
         User user = userRepository.findByIdAndIsArchived(userid, false)
-                                   .orElseThrow(() -> new ServiceException("", HttpStatus.NOT_FOUND));
+                                  .orElseThrow(() -> new ServiceException("", HttpStatus.NOT_FOUND));
         return user;
     }
     
