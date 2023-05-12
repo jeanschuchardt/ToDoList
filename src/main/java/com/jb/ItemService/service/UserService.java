@@ -4,6 +4,7 @@ import com.jb.ItemService.entity.Role;
 import com.jb.ItemService.entity.User;
 import com.jb.ItemService.exception.ServiceException;
 import com.jb.ItemService.record.UserRequestDTO;
+import com.jb.ItemService.record.UserResponse;
 import com.jb.ItemService.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -18,7 +19,7 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     
     private final JwtService jwtService;
-    public String createUser(UserRequestDTO userRequest) {
+    public UserResponse createUser(UserRequestDTO userRequest) {
         User user = new User();
         user.setName(userRequest.name());
         user.setEmail(userRequest.email());
@@ -29,7 +30,8 @@ public class UserService {
         
         var jwkToken =  jwtService.generateToken(user);
         
-        return  jwkToken;
+        
+        return  new UserResponse(user.getId(),user.getName(), user.getEmail(),jwkToken);
     
     }
     

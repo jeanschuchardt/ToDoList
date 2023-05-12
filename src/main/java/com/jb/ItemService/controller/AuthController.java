@@ -1,6 +1,6 @@
 package com.jb.ItemService.controller;
 
-import com.jb.ItemService.record.Login;
+import com.jb.ItemService.record.AuthenticationRequest;
 import com.jb.ItemService.repository.UserRepository;
 import com.jb.ItemService.service.JwtService;
 import lombok.RequiredArgsConstructor;
@@ -10,11 +10,13 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/api/v1/authenticate")
 public class AuthController {
     
     private static final Logger LOG = LoggerFactory.getLogger(AuthController.class);
@@ -25,8 +27,8 @@ public class AuthController {
     private final JwtService jwtService;
     
     
-    @PostMapping("/api/v1/authenticate")
-    public String authenticate(Login request) {
+    @PostMapping("/")
+    public String authenticate(AuthenticationRequest request) {
         Authentication authenticate = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.user(),
@@ -41,7 +43,7 @@ public class AuthController {
     }
     
     
-    @PostMapping("/api/v1/sso")
+    @PostMapping("/sso")
     public String sso(Authentication authentication) {
         
         return null;

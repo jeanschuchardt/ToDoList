@@ -1,21 +1,24 @@
 package com.jb.ItemService.controller;
 
 import com.jb.ItemService.entity.TaskList;
+import com.jb.ItemService.entity.User;
 import com.jb.ItemService.service.TaskListService;
+import jakarta.servlet.http.HttpServletRequest;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequiredArgsConstructor
 public class ListController {
     
     private final TaskListService taskListService;
     
-    public ListController(TaskListService taskListService) {
-        this.taskListService = taskListService;
-    }
-    
+    private final HttpServletRequest httpServletRequest;
     
     @GetMapping("/api/v1/test/{text}")
     public String test(@PathVariable String text) {
+        User userPrincipal = (User) httpServletRequest.getUserPrincipal();
+        
         return taskListService.test(text);
     }
     
