@@ -24,7 +24,7 @@ public class TaskListService {
     public TaskList createList(String name) {
         TaskList taskList = new TaskList();
         taskList.setName(name);
-    
+        
         TaskList save = taskListRepository.save(taskList);
         
         return save;
@@ -33,7 +33,7 @@ public class TaskListService {
     public void delete(int id) {
         Optional<TaskList> byIdAndIsArchived = taskListRepository.findByIdAndIsArchived(id, false);
         
-        if(!byIdAndIsArchived.isPresent()){
+        if (!byIdAndIsArchived.isPresent()) {
             throw new RuntimeException("not found");
         }
         
@@ -47,7 +47,7 @@ public class TaskListService {
     
     public TaskList getListById(int id) {
         Optional<TaskList> byIdAndIsArchived = taskListRepository.findByIdAndIsArchived(id, false);
-        if(!byIdAndIsArchived.isPresent()){
+        if (!byIdAndIsArchived.isPresent()) {
             throw new RuntimeException("not found");
         }
         

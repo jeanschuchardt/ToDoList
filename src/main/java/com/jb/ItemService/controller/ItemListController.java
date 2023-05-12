@@ -6,22 +6,22 @@ import org.springframework.web.bind.annotation.*;
 public class ItemListController {
     
     @GetMapping("/api/v1/lists/{id}/items")
-    public void get(@PathVariable int id){
+    public void get(@PathVariable int id) {
     
     }
     
     @PostMapping("/api/v1/lists/{id}/items")
-    public void post(@PathVariable int id, @RequestBody String name){
+    public void post(@PathVariable int id, @RequestBody String name) {
     
     }
     
     @PutMapping("/api/v1/lists/{listId}/items/{id}")
-    public void post(@PathVariable int listId, @PathVariable int id ,@RequestBody String name){
+    public void post(@PathVariable int listId, @PathVariable int id, @RequestBody String name) {
     
     }
     
     @DeleteMapping("/api/v1/lists/{listId}/items/{id}")
-    public void delete(@PathVariable int listId, @PathVariable int id){
+    public void delete(@PathVariable int listId, @PathVariable int id) {
     
     }
 }

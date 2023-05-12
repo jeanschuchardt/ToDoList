@@ -19,20 +19,21 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     
     private final JwtService jwtService;
+    
     public UserResponse createUser(UserRequestDTO userRequest) {
         User user = new User();
         user.setName(userRequest.name());
         user.setEmail(userRequest.email());
         user.setPassword(passwordEncoder.encode(userRequest.password()));
         user.setRole(Role.USER);
-    
+        
         User save = userRepository.save(user);
         
-        var jwkToken =  jwtService.generateToken(user);
+        var jwkToken = jwtService.generateToken(user);
         
         
-        return  new UserResponse(user.getId(),user.getName(), user.getEmail(),jwkToken);
-    
+        return new UserResponse(user.getId(), user.getName(), user.getEmail(), jwkToken);
+        
     }
     
     public User updateUser(int userid, UserRequestDTO userRequest) {

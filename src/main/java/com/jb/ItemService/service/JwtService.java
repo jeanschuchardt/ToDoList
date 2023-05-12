@@ -28,16 +28,11 @@ public class JwtService {
         return claimsResolver.apply(claims);
     }
     
-    public String generateToken(
-            UserDetails userDetails
-    ) {
+    public String generateToken(UserDetails userDetails) {
         return generateToken(new HashMap<>(), userDetails);
     }
     
-    public String generateToken(
-            Map<String, Object> extraClaims,
-            UserDetails userDetails
-    ) {
+    public String generateToken(Map<String, Object> extraClaims, UserDetails userDetails) {
         return Jwts.builder()
                    .setClaims(extraClaims)
                    .setSubject(userDetails.getUsername())
@@ -48,11 +43,7 @@ public class JwtService {
     }
     
     private Claims extractAllClaims(String token) {
-        return Jwts.parserBuilder()
-                   .setSigningKey(getSignInKey())
-                   .build()
-                   .parseClaimsJws(token)
-                   .getBody();
+        return Jwts.parserBuilder().setSigningKey(getSignInKey()).build().parseClaimsJws(token).getBody();
     }
     
     private Key getSignInKey() {

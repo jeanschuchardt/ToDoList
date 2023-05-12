@@ -2,10 +2,7 @@ package com.jb.ItemService.controller;
 
 import com.jb.ItemService.record.AuthenticationRequest;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -15,8 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class DemoController {
     @GetMapping
     public String authenticate(AuthenticationRequest request) {
-       return "Hello.";
-       
+        return "Hello.";
+        
     }
     
 }

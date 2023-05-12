@@ -28,8 +28,7 @@ public class UserController {
     }
     
     @PutMapping("/api/v1/users/{id}")
-    public User updateUser(@PathVariable int id,
-                           @RequestBody UserRequestDTO userRequest) {
+    public User updateUser(@PathVariable int id, @RequestBody UserRequestDTO userRequest) {
         return userService.updateUser(id, userRequest);
         
     }

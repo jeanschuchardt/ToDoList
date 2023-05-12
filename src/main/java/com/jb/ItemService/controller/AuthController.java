@@ -29,14 +29,9 @@ public class AuthController {
     
     @PostMapping("/")
     public String authenticate(AuthenticationRequest request) {
-        Authentication authenticate = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        request.user(),
-                        request.password()
-                )
-        );
+        Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.user(), request.password()));
         
-        var user = userRepository.findByEmail(request.user()).orElseThrow();
+        var user = userRepository.findByEmailAndIsArchived(request.user(), false).orElseThrow();
         var jwtToken = jwtService.generateToken(user);
         return jwtToken;
         

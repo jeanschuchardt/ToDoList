@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Entity
 @Data
-public class TaskItem  extends BaseEntity{
+public class TaskItem extends BaseEntity {
     @Column
     private String name;
     
@@ -13,7 +13,7 @@ public class TaskItem  extends BaseEntity{
     private String description;
     
     @ManyToOne
-    @JoinColumn(name = "taskListId",nullable = false,insertable = false,updatable = false)
+    @JoinColumn(name = "taskListId", nullable = false, insertable = false, updatable = false)
     private TaskList taskList;
     
     @Column
@@ -24,13 +24,11 @@ public class TaskItem  extends BaseEntity{
     private User assignedUser;
     
     @OneToOne(optional = true)
-    @JoinColumn(name = "parentTaskId",insertable = false,updatable = false)
+    @JoinColumn(name = "parentTaskId", insertable = false, updatable = false)
     private TaskItem parentTask;
     
     @Column
     private Integer parentTaskId;
-    
-    
     
     
 }

@@ -10,5 +10,5 @@ import java.util.List;
 public interface TaskItemRepository extends BaseRepository<TaskItem> {
     
     List<TaskItem> findAllByTaskListIdAndIsArchived(int taskListId, boolean isArchived);
-
+    
 }

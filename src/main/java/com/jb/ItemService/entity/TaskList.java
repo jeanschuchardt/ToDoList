@@ -12,7 +12,7 @@ public class TaskList extends BaseEntity {
     private String name;
     
     @ManyToOne
-    @JoinColumn(name = "userId",nullable = false)
+    @JoinColumn(name = "userId", nullable = false)
     private User user;
     
     @OneToMany(mappedBy = "taskList")
