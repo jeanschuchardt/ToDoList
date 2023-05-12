@@ -21,8 +21,18 @@ public class AuthController {
         this.tokenService = tokenService;
     }
     
-    @PostMapping("/token")
-    public String token(Authentication authentication){
+    @PostMapping("/api/v1/authenticate")
+    public String authenticate(Authentication authentication){
+        LOG.debug("Token requested for user: '{}'", authentication.getName());
+        String jwt = tokenService.generateToken(authentication);
+        LOG.debug("Token granted {}", jwt);
+        return jwt;
+        
+    }
+    
+    
+    @PostMapping("/api/v1/sso")
+    public String sso(Authentication authentication){
         LOG.debug("Token requested for user: '{}'", authentication.getName());
         String jwt = tokenService.generateToken(authentication);
         LOG.debug("Token granted {}", jwt);
