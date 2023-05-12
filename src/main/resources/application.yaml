@@ -12,3 +12,6 @@ spring:
     console.enabled: true
 server:
   port: 6161
+rsa:
+  private-key: classpath:certs/private.pem
+  public-key:  classpath:certs/public.pem
