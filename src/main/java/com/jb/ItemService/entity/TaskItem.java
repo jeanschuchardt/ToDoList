@@ -12,12 +12,12 @@ public class TaskItem extends BaseEntity {
     @Column
     private String description;
     
-    @ManyToOne
-    @JoinColumn(name = "taskListId", nullable = false, insertable = false, updatable = false)
+    @ManyToOne(optional = true)
+    @JoinColumn(name = "taskListId",  insertable = false, updatable = false)
     private TaskList taskList;
     
-    @Column
-    private Integer taskListId;
+    @Column(nullable = false)
+    private Long taskListId;
     
     @ManyToOne
     @JoinColumn(name = "userId")
@@ -27,8 +27,8 @@ public class TaskItem extends BaseEntity {
     @JoinColumn(name = "parentTaskId", insertable = false, updatable = false)
     private TaskItem parentTask;
     
-    @Column
-    private Integer parentTaskId;
+    @Column(nullable = true)
+    private Long parentTaskId;
     
     
 }
