@@ -4,7 +4,6 @@ import org.springframework.http.HttpStatus;
 
 public class ApiException {
     private final String massage;
-//    private final Throwable throwable;
     
     private final HttpStatus httpStatus;
     
@@ -16,7 +15,6 @@ public class ApiException {
     public String getMassage() {
         return massage;
     }
-    
     
     public HttpStatus getHttpStatus() {
         return httpStatus;
