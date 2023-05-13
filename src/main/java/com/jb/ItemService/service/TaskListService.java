@@ -1,7 +1,9 @@
 package com.jb.ItemService.service;
 
 import com.jb.ItemService.entity.TaskList;
+import com.jb.ItemService.exception.ApiRequestException;
 import com.jb.ItemService.repository.TaskListRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -52,5 +54,15 @@ public class TaskListService {
         }
         
         return byIdAndIsArchived.get();
+    }
+    
+    public boolean isListExist(int id) {
+        return taskListRepository.findByIdAndIsArchived(id, false).isPresent();
+    }
+    
+    public void isListPresent(int id) {
+        if (!isListExist(id)) {
+            throw new ApiRequestException("List with id " + id + " does not exist.", HttpStatus.NOT_FOUND);
+        }
     }
 }

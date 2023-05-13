@@ -1,28 +1,49 @@
 package com.jb.ItemService.controller;
 
+import com.jb.ItemService.entity.TaskItem;
+import com.jb.ItemService.record.ItemListRequestDTO;
+import com.jb.ItemService.record.ResponseDTO;
+import com.jb.ItemService.record.ResponseListDTO;
+import com.jb.ItemService.service.TaskItemService;
+import com.jb.ItemService.service.TaskListService;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 public class ItemListController {
     
-    @GetMapping("/api/v1/lists/{id}/items")
-    public void get(@PathVariable int id) {
+    public ItemListController(TaskItemService taskItemService, TaskListService taskListService) {
+        this.taskItemService = taskItemService;
+        this.taskListService = taskListService;
+    }
     
+    public final TaskItemService taskItemService;
+    public final TaskListService taskListService;
+    
+    
+    @GetMapping("/api/v1/lists/{id}/items")
+    public ResponseListDTO<TaskItem> get(@PathVariable int id) {
+        List<TaskItem> itemsByList = taskItemService.getItemsByList(id);
+        return new ResponseListDTO<TaskItem>(itemsByList);
     }
     
     @PostMapping("/api/v1/lists/{id}/items")
-    public void post(@PathVariable int id, @RequestBody String name) {
-    
+    public ResponseDTO<TaskItem> post(@PathVariable int id, @RequestBody ItemListRequestDTO request) {
+        TaskItem taskItem = taskItemService.create(id, request);
+        return new ResponseDTO<TaskItem>(taskItem);
     }
     
     @PutMapping("/api/v1/lists/{listId}/items/{id}")
-    public void post(@PathVariable int listId, @PathVariable int id, @RequestBody String name) {
-    
+    public ResponseDTO<TaskItem> update(@PathVariable int listId, @PathVariable int id, @RequestBody ItemListRequestDTO request) {
+        TaskItem taskItem = taskItemService.update(listId,id, request);
+        return new ResponseDTO<TaskItem>(taskItem);
     }
     
     @DeleteMapping("/api/v1/lists/{listId}/items/{id}")
     public void delete(@PathVariable int listId, @PathVariable int id) {
-    
+        taskItemService.delete(listId,id);
+        
     }
 }
  /*

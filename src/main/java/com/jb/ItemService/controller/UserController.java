@@ -2,7 +2,7 @@ package com.jb.ItemService.controller;
 
 import com.jb.ItemService.entity.User;
 import com.jb.ItemService.record.UserRequestDTO;
-import com.jb.ItemService.record.UserResponse;
+import com.jb.ItemService.record.UserResponseDTO;
 import com.jb.ItemService.service.UserService;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,7 +21,7 @@ public class UserController {
     }
     
     @PostMapping("/api/v1/users")
-    public UserResponse createUser(@RequestBody UserRequestDTO userRequest) {
+    public UserResponseDTO createUser(@RequestBody UserRequestDTO userRequest) {
         return userService.createUser(userRequest);
         
         

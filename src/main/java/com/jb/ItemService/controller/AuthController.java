@@ -1,6 +1,6 @@
 package com.jb.ItemService.controller;
 
-import com.jb.ItemService.record.AuthenticationRequest;
+import com.jb.ItemService.record.AuthenticationRequestDTO;
 import com.jb.ItemService.repository.UserRepository;
 import com.jb.ItemService.service.JwtService;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +28,7 @@ public class AuthController {
     
     
     @PostMapping("/")
-    public String authenticate(AuthenticationRequest request) {
+    public String authenticate(AuthenticationRequestDTO request) {
         Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.user(), request.password()));
         
         var user = userRepository.findByEmailAndIsArchived(request.user(), false).orElseThrow();

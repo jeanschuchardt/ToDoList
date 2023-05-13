@@ -4,7 +4,7 @@ import com.jb.ItemService.entity.Role;
 import com.jb.ItemService.entity.User;
 import com.jb.ItemService.exception.ApiRequestException;
 import com.jb.ItemService.record.UserRequestDTO;
-import com.jb.ItemService.record.UserResponse;
+import com.jb.ItemService.record.UserResponseDTO;
 import com.jb.ItemService.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -20,7 +20,7 @@ public class UserService {
     
     private final JwtService jwtService;
     
-    public UserResponse createUser(UserRequestDTO userRequest) {
+    public UserResponseDTO createUser(UserRequestDTO userRequest) {
         User user = new User();
         user.setName(userRequest.name());
         user.setEmail(userRequest.email());
@@ -32,7 +32,7 @@ public class UserService {
         var jwkToken = jwtService.generateToken(user);
         
         
-        return new UserResponse(user.getId(), user.getName(), user.getEmail(), jwkToken);
+        return new UserResponseDTO(user.getId(), user.getName(), user.getEmail(), jwkToken);
         
     }
     
