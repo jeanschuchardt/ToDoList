@@ -22,8 +22,8 @@ public class SecurityConfig {
         return http.csrf()
                    .disable()
                    .authorizeHttpRequests()
-                   .requestMatchers("/**", "/api/v1/authenticate/**", "/api/v1" +
-                           "/users", "/api/v1/demo/**")
+                   .requestMatchers("/api/v1/authenticate/**",
+                           "/api/v1/users", "/api/v1/demo/**")
                    .permitAll()
                    .anyRequest()
                    .authenticated()
@@ -34,8 +34,6 @@ public class SecurityConfig {
                    .and()
                    .authenticationProvider(authenticationProvider)
                    .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
-//                   .headers().frameOptions().disable()
-//                   .and()
                    .build();
         
     }
