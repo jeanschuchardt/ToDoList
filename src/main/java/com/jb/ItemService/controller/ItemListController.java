@@ -5,7 +5,6 @@ import com.jb.ItemService.record.ItemListRequestDTO;
 import com.jb.ItemService.record.ResponseDTO;
 import com.jb.ItemService.record.ResponseListDTO;
 import com.jb.ItemService.service.TaskItemService;
-import com.jb.ItemService.service.TaskListService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,14 +12,12 @@ import java.util.List;
 @RestController
 public class ItemListController {
     
-    public ItemListController(TaskItemService taskItemService, TaskListService taskListService) {
-        this.taskItemService = taskItemService;
-        this.taskListService = taskListService;
-    }
-    
     public final TaskItemService taskItemService;
-    public final TaskListService taskListService;
     
+    public ItemListController(TaskItemService taskItemService) {
+        this.taskItemService = taskItemService;
+        
+    }
     
     @GetMapping("/api/v1/lists/{id}/items")
     public ResponseListDTO<TaskItem> get(@PathVariable int id) {
@@ -35,14 +32,16 @@ public class ItemListController {
     }
     
     @PutMapping("/api/v1/lists/{listId}/items/{id}")
-    public ResponseDTO<TaskItem> update(@PathVariable int listId, @PathVariable int id, @RequestBody ItemListRequestDTO request) {
-        TaskItem taskItem = taskItemService.update(listId,id, request);
+    public ResponseDTO<TaskItem> update(@PathVariable int listId,
+                                        @PathVariable int id,
+                                        @RequestBody ItemListRequestDTO request) {
+        TaskItem taskItem = taskItemService.update(listId, id, request);
         return new ResponseDTO<TaskItem>(taskItem);
     }
     
     @DeleteMapping("/api/v1/lists/{listId}/items/{id}")
     public void delete(@PathVariable int listId, @PathVariable int id) {
-        taskItemService.delete(listId,id);
+        taskItemService.delete(listId, id);
         
     }
 }

@@ -56,13 +56,5 @@ public class TaskListService {
         return byIdAndIsArchived.get();
     }
     
-    public boolean isListExist(int id) {
-        return taskListRepository.findByIdAndIsArchived(id, false).isPresent();
-    }
     
-    public void isListPresent(int id) {
-        if (!isListExist(id)) {
-            throw new ApiRequestException("List with id " + id + " does not exist.", HttpStatus.NOT_FOUND);
-        }
-    }
 }

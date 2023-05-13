@@ -4,6 +4,7 @@ import com.jb.ItemService.entity.TaskItem;
 import com.jb.ItemService.exception.ApiRequestException;
 import com.jb.ItemService.record.ItemListRequestDTO;
 import com.jb.ItemService.repository.TaskItemRepository;
+import com.jb.ItemService.repository.TaskListRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -12,12 +13,15 @@ import java.util.List;
 @Service
 public class TaskItemService {
     
-    public final TaskListService taskListService;
+    
+    private final TaskListRepository taskListRepository;
+    
+    
     private final TaskItemRepository taskItemRepository;
     
-    public TaskItemService(TaskItemRepository taskItemRepository, TaskListService taskListService) {
+    public TaskItemService(TaskListRepository taskListRepository, TaskItemRepository taskItemRepository) {
+        this.taskListRepository = taskListRepository;
         this.taskItemRepository = taskItemRepository;
-        this.taskListService = taskListService;
     }
     
     public void deleteItemByListId(int id) {
@@ -38,7 +42,7 @@ public class TaskItemService {
     }
     
     public TaskItem create(int listId, ItemListRequestDTO request) {
-        taskListService.isListPresent(listId);
+        isListPresent(listId);
         TaskItem taskItem = new TaskItem().setName(request.title())
                                           .setDescription(request.description())
                                           .setTaskListId((long) listId)
@@ -51,7 +55,7 @@ public class TaskItemService {
     
     
     public TaskItem update(int listId, int itemId, ItemListRequestDTO request) {
-        taskListService.isListPresent(listId);
+        isListPresent(listId);
         isItemPresent(itemId);
         
         TaskItem taskItem = taskItemRepository.findByIdAndIsArchived(itemId, false).get();
@@ -93,7 +97,7 @@ public class TaskItemService {
         try {
             saveItem(item);
         } catch (Exception e) {
-            throw  new ApiRequestException("Not able to delete item requested.", HttpStatus.BAD_REQUEST);
+            throw new ApiRequestException("Not able to delete item requested.", HttpStatus.BAD_REQUEST);
         }
         
     }
@@ -102,5 +106,16 @@ public class TaskItemService {
         return taskItemRepository.findByIdAndTaskListIdAndIsArchived(id, listId, false)
                                  .orElseThrow(() -> new ApiRequestException("Item", HttpStatus.NOT_FOUND));
         
+    }
+    
+    
+    public boolean isListExist(int id) {
+        return taskListRepository.findByIdAndIsArchived(id, false).isPresent();
+    }
+    
+    public void isListPresent(int id) {
+        if (!isListExist(id)) {
+            throw new ApiRequestException("List with id " + id + " does not exist.", HttpStatus.NOT_FOUND);
+        }
     }
 }
