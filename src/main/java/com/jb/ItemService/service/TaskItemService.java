@@ -13,9 +13,7 @@ import java.util.List;
 @Service
 public class TaskItemService {
     
-    
     private final TaskListRepository taskListRepository;
-    
     
     private final TaskItemRepository taskItemRepository;
     
