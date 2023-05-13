@@ -2,7 +2,7 @@ package com.jb.ItemService.service;
 
 import com.jb.ItemService.entity.Role;
 import com.jb.ItemService.entity.User;
-import com.jb.ItemService.exception.ServiceException;
+import com.jb.ItemService.exception.ApiRequestException;
 import com.jb.ItemService.record.UserRequestDTO;
 import com.jb.ItemService.record.UserResponse;
 import com.jb.ItemService.repository.UserRepository;
@@ -49,7 +49,7 @@ public class UserService {
     
     public User getUser(int userid) {
         User user = userRepository.findByIdAndIsArchived(userid, false)
-                                  .orElseThrow(() -> new ServiceException("", HttpStatus.NOT_FOUND));
+                                  .orElseThrow(() -> new ApiRequestException("", HttpStatus.NOT_FOUND));
         return user;
     }
     
