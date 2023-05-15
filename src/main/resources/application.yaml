@@ -4,6 +4,7 @@ spring:
     username: services
     password: 123123
     driverClassName: com.mysql.jdbc.Driver
+
   jpa:
     hibernate:
       ddl-auto: update
@@ -21,3 +22,4 @@ server:
 rsa:
   private-key: classpath:certs/private.pem
   public-key: classpath:certs/public.pem
+

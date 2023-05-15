@@ -3,6 +3,7 @@ package com.jb.ItemService.config;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -14,6 +15,21 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
+    private static final String[] SWAGGER_WHITELIST = {
+            "/api/v1/auth/**",
+            "/v3/api-docs/**",
+            "/v3/api-docs.yaml",
+            "/swagger-ui/**",
+            "/swagger-ui.html"
+    };
+    
+    private static final String[] USER_WHITELIST = {
+            "/api/v1/authenticate/**",
+            "/api/v1/users",
+            "/api/v1/demo/**"
+    };
+    
+    
     private final JwtAuthenticationFilter jwtAuthFilter;
     private final AuthenticationProvider authenticationProvider;
     
@@ -22,13 +38,13 @@ public class SecurityConfig {
         return http.csrf()
                    .disable()
                    .authorizeHttpRequests()
-                   .requestMatchers("/api/v1/authenticate/**",
-                           "/api/v1/users", "/api/v1/demo/**")
-                   .permitAll()
-                   .anyRequest()
-                   .authenticated()
+
+                   .requestMatchers(USER_WHITELIST).permitAll()
+                   .requestMatchers(HttpMethod.GET, SWAGGER_WHITELIST).permitAll()
+
+                   .anyRequest().authenticated()
                    .and()
-        
+
                    .sessionManagement()
                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                    .and()
