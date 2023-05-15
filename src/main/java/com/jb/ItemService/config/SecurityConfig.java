@@ -40,7 +40,7 @@ public class SecurityConfig {
                    .authorizeHttpRequests()
 
                    .requestMatchers(USER_WHITELIST).permitAll()
-                   .requestMatchers(HttpMethod.GET, SWAGGER_WHITELIST).permitAll()
+                   .requestMatchers(SWAGGER_WHITELIST).permitAll()
 
                    .anyRequest().authenticated()
                    .and()
