@@ -13,13 +13,11 @@ spring:
       hibernate:
         format_sql: true
     database: mysql
-    database-platform: org.hibernate.dialect.MySQL8Dialect
+    database-platform: org.hibernate.dialect.MySQLDialect
 
   h2:
     console.enabled: true
 server:
   port: 6161
-rsa:
-  private-key: classpath:certs/private.pem
-  public-key: classpath:certs/public.pem
+
 
