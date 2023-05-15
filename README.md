@@ -1,4 +1,15 @@
-# Spring Boot 3.0 Security with JWT Implementation
+# Task list 
+The application's target audience is people who need to create lists of items organized into sub-items (optional) and who want to simply share this list with others so that they can collaborate.
+
+In this API we have 3 main entities: user, list and item. The relationship would be:
+
+- User can create multiple lists
+- List has one or more items;
+- Item is associated with only one list;
+- Item can be associated with another item, assuming the status of "child item";
+- Item is associated with a user that may not be the same as the owner of the list to which this item belongs.
+- 
+
 This project demonstrates the implementation of security using Spring Boot 3.0 and JSON Web Tokens (JWT). It includes the following features:
 
 ## Features
