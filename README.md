@@ -37,7 +37,10 @@ To get started with this project, you will need to have the following installed 
 To build and run the project, follow these steps:
 
 
-* Build the project: mvn clean install
+* Build the project: mvn clean install -DskipTests=true
+* Create docker image: docker build -t task .
+* Instantiate a database and start the application: docker-compose up -d
+* Shutdown the application: docker-compose down -v
 * Run the project: mvn spring-boot:run
 
 -> The application will be available at http://localhost:6161.
