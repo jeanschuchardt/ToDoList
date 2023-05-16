@@ -41,7 +41,7 @@ To build and run the project, follow these steps:
 * Create docker image: docker build -t task .
 * Instantiate a database and start the application: docker-compose up -d
 * Shutdown the application: docker-compose down -v
-* Run the project: mvn spring-boot:run
+
 
 -> The application will be available at http://localhost:6161.
 -> Swagger endpoint http://localhost:6161/swagger-ui/index.html#/
