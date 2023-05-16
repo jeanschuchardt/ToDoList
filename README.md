@@ -1,8 +1,6 @@
 # Task list 
 The application's target audience is people who need to create lists of items organized into sub-items (optional) and who want to simply share this list with others so that they can collaborate.
 
-This project demonstrates the implementation of security using Spring Boot 3.0 and JSON Web Tokens (JWT). It includes the following features:
-
 ## Features
 
 In this API we have 3 main entities: user, list and item. The relationship would be:
@@ -37,12 +35,12 @@ To get started with this project, you will need to have the following installed 
 To build and run the project, follow these steps:
 
 
-* Build the project: mvn clean install -DskipTests=true
+* Build the project: mvn clean install
 * Create docker image: docker build -t task .
 * Instantiate a database and start the application: docker-compose up -d
 * Shutdown the application: docker-compose down -v
 
 
--> The application will be available at http://localhost:6161.
--> Swagger endpoint http://localhost:6161/swagger-ui/index.html#/
+* The application will be available at http://localhost:6161.
+* Swagger endpoint http://localhost:6161/swagger-ui/index.html#/
 
