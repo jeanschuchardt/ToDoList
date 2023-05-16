@@ -1,6 +1,7 @@
 package com.jb.ItemService.controller;
 
 import com.jb.ItemService.entity.User;
+import com.jb.ItemService.record.SimpleUserResponseDTO;
 import com.jb.ItemService.record.UserRequestDTO;
 import com.jb.ItemService.record.UserResponseDTO;
 import com.jb.ItemService.service.UserService;
@@ -21,13 +22,17 @@ public class UserController {
         
     }
     @GetMapping("/api/v1/users/{id}")
-    public User getUser(@PathVariable int id) {
-        return userService.getUser(id);
+    public SimpleUserResponseDTO getUser(@PathVariable int id) {
+        User user = userService.getUser(id);
+        SimpleUserResponseDTO simpleUserResponseDTO = userService.mapResponse(user);
+        return simpleUserResponseDTO;
     }
     
     @PutMapping("/api/v1/users/{id}")
-    public User updateUser(@PathVariable int id, @RequestBody UserRequestDTO userRequest) {
-        return userService.updateUser(id, userRequest);
+    public SimpleUserResponseDTO updateUser(@PathVariable int id, @RequestBody UserRequestDTO userRequest) {
+        User user = userService.updateUser(id, userRequest);
+        SimpleUserResponseDTO simpleUserResponseDTO = userService.mapResponse(user);
+        return simpleUserResponseDTO;
         
     }
     
