@@ -37,12 +37,4 @@ public class AuthController {
         
     }
     
-    
-    @PostMapping("/sso")
-    public String sso(Authentication authentication) {
-        
-        return null;
-        
-    }
-    
 }
