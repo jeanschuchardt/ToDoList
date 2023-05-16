@@ -14,9 +14,9 @@ public class TaskItem extends BaseEntity {
     @Column
     private String description;
     
-//    @ManyToOne(optional = true)
-//    @JoinColumn(name = "taskListId", insertable = false, updatable = false)
-//    private TaskList taskList;
+    @ManyToOne
+    @JoinColumn(name = "taskListId", insertable = false, updatable = false)
+    private TaskList taskList;
     
     @Column(nullable = false)
     private Long taskListId;

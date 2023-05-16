@@ -4,8 +4,6 @@ import com.jb.ItemService.entity.TaskList;
 import com.jb.ItemService.entity.User;
 import com.jb.ItemService.exception.ApiRequestException;
 import com.jb.ItemService.record.ListRequestDTO;
-import com.jb.ItemService.record.SimpleUserResponseDTO;
-import com.jb.ItemService.record.TaskListResponseDTO;
 import com.jb.ItemService.repository.TaskListRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;

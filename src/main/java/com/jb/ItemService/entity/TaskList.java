@@ -17,8 +17,8 @@ public class TaskList extends BaseEntity {
     
     @Column(nullable = false)
     private Long userId;
-//    @OneToMany(mappedBy = "taskList")
-//    private Set<TaskItem> items;
+    @OneToMany(mappedBy = "taskList")
+    private Set<TaskItem> items;
     
     
 }

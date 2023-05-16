@@ -22,13 +22,13 @@ public class ItemListController {
     @GetMapping("/api/v1/lists/{id}/items")
     public ResponseListDTO<TaskItem> get(@PathVariable int id) {
         List<TaskItem> itemsByList = taskItemService.getItemsByList(id);
-        return new ResponseListDTO<TaskItem>(itemsByList);
+        return new ResponseListDTO<>(itemsByList);
     }
     
     @PostMapping("/api/v1/lists/{id}/items")
     public ResponseDTO<TaskItem> post(@PathVariable int id, @RequestBody ItemListRequestDTO request) {
         TaskItem taskItem = taskItemService.create(id, request);
-        return new ResponseDTO<TaskItem>(taskItem);
+        return new ResponseDTO<>(taskItem);
     }
     
     @PutMapping("/api/v1/lists/{listId}/items/{id}")
@@ -36,7 +36,7 @@ public class ItemListController {
                                         @PathVariable int id,
                                         @RequestBody ItemListRequestDTO request) {
         TaskItem taskItem = taskItemService.update(listId, id, request);
-        return new ResponseDTO<TaskItem>(taskItem);
+        return new ResponseDTO<>(taskItem);
     }
     
     @DeleteMapping("/api/v1/lists/{listId}/items/{id}")

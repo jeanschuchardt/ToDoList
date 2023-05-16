@@ -1,6 +1,7 @@
 package com.jb.ItemService.service;
 
 import com.jb.ItemService.entity.TaskItem;
+import com.jb.ItemService.entity.User;
 import com.jb.ItemService.exception.ApiRequestException;
 import com.jb.ItemService.record.ItemListRequestDTO;
 import com.jb.ItemService.repository.TaskItemRepository;
@@ -19,9 +20,13 @@ public class TaskItemService {
     
     private final TaskItemRepository taskItemRepository;
     
-    public TaskItemService(TaskListRepository taskListRepository, TaskItemRepository taskItemRepository) {
+    private final UserService userService;
+    
+    public TaskItemService(TaskListRepository taskListRepository, TaskItemRepository taskItemRepository,
+                           UserService userService) {
         this.taskListRepository = taskListRepository;
         this.taskItemRepository = taskItemRepository;
+        this.userService = userService;
     }
     
     public void deleteItemByListId(int id) {
@@ -43,21 +48,9 @@ public class TaskItemService {
     
     public TaskItem create(int listId, ItemListRequestDTO request) {
         isListPresent(listId);
-        if(Objects.nonNull(request.parentTaskId())){
-            Optional<TaskItem> byIdAndIsArchived = taskItemRepository.findByIdAndIsArchived(Math.toIntExact(request.parentTaskId()), false);
-            if(byIdAndIsArchived.isPresent()){
-                TaskItem taskItem = byIdAndIsArchived.get();
-                Long taskListId = taskItem.getTaskListId();
-                if(taskListId.intValue()!=listId){
-                    throw new ApiRequestException("Item parent id not belong to a item under this list.",
-                            HttpStatus.BAD_REQUEST);
-                }
-            }else{
-                throw new ApiRequestException("Item parent id not found.",
-                        HttpStatus.NOT_FOUND);
-            }
-        }
-        
+    
+        validateParentTask(listId, request.parentTaskId());
+    
         TaskItem taskItem = new TaskItem().setName(request.title())
                                           .setDescription(request.description())
                                           .setTaskListId((long) listId)
@@ -68,6 +61,24 @@ public class TaskItemService {
         return taskItemRepository.save(taskItem);
     }
     
+    private void validateParentTask(int listId, Long parentTaskId ) {
+        
+        if (Objects.nonNull(parentTaskId)) {
+            Optional<TaskItem> byIdAndIsArchived = taskItemRepository.findByIdAndIsArchived(Math.toIntExact(parentTaskId), false);
+            if (byIdAndIsArchived.isPresent()) {
+                TaskItem taskItem = byIdAndIsArchived.get();
+                Long taskListId = taskItem.getTaskListId();
+                if (taskListId.intValue() != listId) {
+                    throw new ApiRequestException("Item parent id not belong to a item under this list.",
+                            HttpStatus.BAD_REQUEST);
+                }
+            } else {
+                throw new ApiRequestException("Item parent id not found.",
+                        HttpStatus.NOT_FOUND);
+            }
+        }
+    }
+    
     
     public TaskItem update(int listId, int itemId, ItemListRequestDTO request) {
         isListPresent(listId);
@@ -75,6 +86,7 @@ public class TaskItemService {
         
         TaskItem taskItem = taskItemRepository.findByIdAndIsArchived(itemId, false).get();
         
+        validateParentTask(listId, request.parentTaskId());
         
         taskItem.setName(request.title())
                 .setDescription(request.description())
@@ -109,12 +121,28 @@ public class TaskItemService {
         
         TaskItem item = getItemNotArchivedByIdAndListId(listId, id);
         item.setIsArchived(true);
+        
+        Long userId = item.getTaskList().getUserId();
+        Long assignedUserId = item.getAssignedUserId();
+    
+        validateCurrentUser(userId, assignedUserId);
         try {
             saveItem(item);
         } catch (Exception e) {
             throw new ApiRequestException("Not able to delete item requested.", HttpStatus.BAD_REQUEST);
         }
         
+    }
+    
+    private void validateCurrentUser(Long userId, Long assignedUserId) {
+        User authenticatedUser = userService.getAuthenticatedUser();
+        
+        if (!authenticatedUser.getId().equals(userId) &&
+                !(Objects.nonNull(assignedUserId)
+                        || authenticatedUser.equals(assignedUserId))
+        ) {
+            throw new ApiRequestException("User can not execute action  item.", HttpStatus.FORBIDDEN);
+        }
     }
     
     private TaskItem getItemNotArchivedByIdAndListId(int listId, int id) {
