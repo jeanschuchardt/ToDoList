@@ -1,11 +1,13 @@
 package com.jb.ItemService.controller;
 
+import com.jb.ItemService.exception.ApiRequestException;
 import com.jb.ItemService.record.AuthenticationRequestDTO;
 import com.jb.ItemService.repository.UserRepository;
 import com.jb.ItemService.service.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -25,11 +27,15 @@ public class AuthController {
     
     @PostMapping("/")
     public String authenticate(AuthenticationRequestDTO request) {
-        Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.user(), request.password()));
-        
-        var user = userRepository.findByEmailAndIsArchived(request.user(), false).orElseThrow();
-        var jwtToken = jwtService.generateToken(user);
-        return jwtToken;
+        try {
+            Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.user(), request.password()));
+    
+            var user = userRepository.findByEmailAndIsArchived(request.user(), false).orElseThrow();
+            var jwtToken = jwtService.generateToken(user);
+            return jwtToken;
+        }catch (Exception e){
+            throw new ApiRequestException("User or password invalid", HttpStatus.BAD_REQUEST);
+        }
         
     }
     
