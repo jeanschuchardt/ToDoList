@@ -18,9 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/authenticate")
 public class AuthController {
-    
-    private static final Logger LOG = LoggerFactory.getLogger(AuthController.class);
-    
     private final AuthenticationManager authenticationManager;
     
     private final UserRepository userRepository;
