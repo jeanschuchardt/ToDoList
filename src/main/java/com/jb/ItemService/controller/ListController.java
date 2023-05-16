@@ -50,25 +50,3 @@ public class ListController {
         
     }
 }
- /*
-URI sugerida: /api/v{n}/lists/{ID}
-Public: Sim
-Tipo: GET
-Return Success: { "list" : OBJECT,  “user_id”: INTEGER }
-Return Fail: { "message" : STRING }
-
-URI sugerida: /api/v{n}/lists
-Public: Sim
-Tipo: POST
-Request: { "title": STRING }
-Return Success: { "list" : { "title" : STRING } }
-Return Fail: { "message" : STRING }
-
-
-URI sugerida: /api/v{n}/lists/{ID}
-Public: Não
-Tipo: DELETE
-Request: { "id": INTEGER }
-Return Fail: { "message" : STRING }
-
-*/
