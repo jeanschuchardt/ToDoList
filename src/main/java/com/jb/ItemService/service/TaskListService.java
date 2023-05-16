@@ -4,6 +4,8 @@ import com.jb.ItemService.entity.TaskList;
 import com.jb.ItemService.entity.User;
 import com.jb.ItemService.exception.ApiRequestException;
 import com.jb.ItemService.record.ListRequestDTO;
+import com.jb.ItemService.record.SimpleUserResponseDTO;
+import com.jb.ItemService.record.TaskListResponseDTO;
 import com.jb.ItemService.repository.TaskListRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -88,5 +90,11 @@ public class TaskListService {
             throw  new ApiRequestException("",HttpStatus.NO_CONTENT);
         }
         return  allByUserIdAndIsArchived;
+    }
+    
+    public TaskListResponseDTO mapResponse(TaskList listById) {
+        return new TaskListResponseDTO(listById.getId(), listById.getName(),
+                new SimpleUserResponseDTO( listById.getUser().getId()
+                ,listById.getUser().getName(),listById.getUser().getEmail()));
     }
 }
