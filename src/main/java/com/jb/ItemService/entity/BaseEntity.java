@@ -28,12 +28,6 @@ public abstract class BaseEntity {
     private Date dateUpdated;
     
     @Column
-    private Integer createdBy;
-    
-    @Column
-    private Integer updatedBy;
-    
-    @Column
     private Boolean isArchived = false;
     
     @PrePersist
