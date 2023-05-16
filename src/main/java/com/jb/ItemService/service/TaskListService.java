@@ -8,6 +8,7 @@ import com.jb.ItemService.repository.TaskListRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -57,6 +58,7 @@ public class TaskListService {
         }
         
         TaskList taskList = byIdAndIsArchived.get();
+        
         User authenticatedUser = userService.getAuthenticatedUser();
         if(!authenticatedUser.getId().equals(taskList.getUser().getId())){
             throw  new ApiRequestException("You can not delete this list",HttpStatus.FORBIDDEN);
@@ -72,11 +74,19 @@ public class TaskListService {
     public TaskList getListById(int id) {
         Optional<TaskList> byIdAndIsArchived = taskListRepository.findByIdAndIsArchived(id, false);
         if (!byIdAndIsArchived.isPresent()) {
-            throw new RuntimeException("not found");
+            throw new ApiRequestException("not found",HttpStatus.NOT_FOUND);
         }
         
         return byIdAndIsArchived.get();
     }
     
     
+    public List<TaskList> getAll() {
+        User authenticatedUser = userService.getAuthenticatedUser();
+        List<TaskList> allByUserIdAndIsArchived = taskListRepository.findAllByUserIdAndIsArchived(authenticatedUser.getId(), false);
+        if(allByUserIdAndIsArchived.isEmpty()){
+            throw  new ApiRequestException("",HttpStatus.NO_CONTENT);
+        }
+        return  allByUserIdAndIsArchived;
+    }
 }

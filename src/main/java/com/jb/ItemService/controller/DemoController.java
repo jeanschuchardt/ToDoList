@@ -1,6 +1,5 @@
 package com.jb.ItemService.controller;
 
-import com.jb.ItemService.record.AuthenticationRequestDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
