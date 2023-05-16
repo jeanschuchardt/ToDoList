@@ -7,8 +7,10 @@ import com.jb.ItemService.record.SimpleUserResponseDTO;
 import com.jb.ItemService.record.UserRequestDTO;
 import com.jb.ItemService.record.UserResponseDTO;
 import com.jb.ItemService.repository.UserRepository;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +22,7 @@ public class UserService {
     
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    
+    private final HttpServletRequest servletRequest;
     private final JwtService jwtService;
     
     public UserResponseDTO createUser(UserRequestDTO userRequest) {
@@ -40,9 +42,11 @@ public class UserService {
     }
     
     public User updateUser(int userid, UserRequestDTO userRequest) {
+        
         User user = getUser(userid);
-        
-        
+    
+        isUserAllowed(user);
+    
         user.setName(userRequest.name());
         user.setEmail(userRequest.email());
         if (Objects.nonNull(userRequest.password()) && userRequest.password().equals("")) {
@@ -50,6 +54,17 @@ public class UserService {
         }
         
         return saveUser(user);
+    }
+    
+    private void isUserAllowed(User user) {
+        if(!userIsAuthority(user)){
+            throw new ApiRequestException("You can not execute this action.",HttpStatus.FORBIDDEN);
+        }
+    }
+    
+    private boolean userIsAuthority(User user) {
+        User userPrincipal = getAuthenticatedUser();
+        return user.getId().equals(userPrincipal.getId());
     }
     
     private User saveUser(User user) {
@@ -68,8 +83,13 @@ public class UserService {
     
     
     public SimpleUserResponseDTO mapResponse(User user) {
-        SimpleUserResponseDTO simpleUserResponseDTO = new SimpleUserResponseDTO(user.getId(), user.getName(),
-                user.getEmail());
+        SimpleUserResponseDTO simpleUserResponseDTO = new SimpleUserResponseDTO(user.getId(), user.getName(), user.getEmail());
         return simpleUserResponseDTO;
+    }
+    
+    public User getAuthenticatedUser() {
+        User userPrincipal =
+                (User) ((UsernamePasswordAuthenticationToken)servletRequest.getUserPrincipal()).getPrincipal();
+        return userPrincipal;
     }
 }

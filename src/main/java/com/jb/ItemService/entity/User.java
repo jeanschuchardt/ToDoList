@@ -7,6 +7,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -21,10 +22,10 @@ public class User extends BaseEntity implements UserDetails {
     private String password;
     
     @OneToMany(mappedBy = "user")
-    private Set<TaskList> taskList;
+    private Set<TaskList> taskList = new HashSet<>();
     
     @OneToMany(mappedBy = "assignedUser")
-    private Set<TaskItem> itemsAssigned;
+    private Set<TaskItem> itemsAssigned  = new HashSet<>();;
     
     @Enumerated(EnumType.STRING)
     private Role role;
