@@ -90,9 +90,4 @@ public class TaskListService {
         return  allByUserIdAndIsArchived;
     }
     
-//    public TaskListResponseDTO mapResponse(TaskList listById) {
-////        return new TaskListResponseDTO(listById.getId(), listById.getName(),
-////                new SimpleUserResponseDTO( listById.getUserId()
-////                ,listById.getUser().getName(),listById.getUser().getEmail()));
-//    }
 }

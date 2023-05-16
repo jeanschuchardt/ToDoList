@@ -2,8 +2,14 @@ package com.jb.ItemService.controller;
 
 import com.jb.ItemService.exception.ApiRequestException;
 import com.jb.ItemService.record.AuthenticationRequestDTO;
+import com.jb.ItemService.record.UserResponseDTO;
 import com.jb.ItemService.repository.UserRepository;
 import com.jb.ItemService.service.JwtService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,7 +31,12 @@ public class AuthController {
     private final UserRepository userRepository;
     private final JwtService jwtService;
     
-    
+    @Operation(summary = "Authenticate user",  tags = {"public endpoint"} )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "JWT token returned",
+                    content = @Content ),
+            @ApiResponse(responseCode = "400", description = "Bad request",
+                    content = @Content) })
     @PostMapping("/")
     public String authenticate(@RequestBody AuthenticationRequestDTO request) {
         try {
