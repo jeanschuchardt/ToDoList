@@ -2,6 +2,7 @@ package com.jb.ItemService.controller;
 
 import com.jb.ItemService.entity.TaskList;
 import com.jb.ItemService.entity.User;
+import com.jb.ItemService.record.ListRequestDTO;
 import com.jb.ItemService.service.TaskListService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -15,13 +16,6 @@ public class ListController {
     
     private final HttpServletRequest httpServletRequest;
     
-    @GetMapping("/api/v1/test/{text}")
-    public String test(@PathVariable String text) {
-        User userPrincipal = (User) httpServletRequest.getUserPrincipal();
-        
-        return taskListService.test(text);
-    }
-    
     @GetMapping("/api/v1/lists/{id}")
     public TaskList getListById(@PathVariable int id) {
         TaskList listById = taskListService.getListById(id);
@@ -29,8 +23,8 @@ public class ListController {
     }
     
     @PostMapping("/api/v1/lists")
-    public TaskList post(@RequestBody String name) {
-        TaskList list = taskListService.createList(name);
+    public TaskList post(@RequestBody ListRequestDTO requestDTO) {
+        TaskList list = taskListService.createList(requestDTO);
         return list;
     }
     

@@ -1,7 +1,9 @@
 package com.jb.ItemService.service;
 
 import com.jb.ItemService.entity.TaskList;
+import com.jb.ItemService.entity.User;
 import com.jb.ItemService.exception.ApiRequestException;
+import com.jb.ItemService.record.ListRequestDTO;
 import com.jb.ItemService.repository.TaskListRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -13,23 +15,38 @@ public class TaskListService {
     
     private final TaskListRepository taskListRepository;
     private final TaskItemService taskItemService;
+    private final UserService userService;
     
-    public TaskListService(TaskListRepository taskListRepository, TaskItemService taskItemService) {
+    public TaskListService(TaskListRepository taskListRepository, TaskItemService taskItemService,
+                           UserService userService) {
         this.taskListRepository = taskListRepository;
         this.taskItemService = taskItemService;
+        this.userService = userService;
     }
     
     public String test(String text) {
         return "Hi user " + text;
     }
     
-    public TaskList createList(String name) {
+    public TaskList createList(ListRequestDTO requestDTO) {
+        
         TaskList taskList = new TaskList();
-        taskList.setName(name);
-        
-        TaskList save = taskListRepository.save(taskList);
-        
+        taskList.setName(requestDTO.name());
+        User authenticatedUser = userService.getAuthenticatedUser();
+        taskList.setUserId(authenticatedUser.getId());
+    
+        TaskList save = save(taskList);
+    
         return save;
+    }
+    
+    private TaskList save(TaskList taskList) {
+        try {
+            TaskList save = taskListRepository.save(taskList);
+            return save;
+        }catch (Exception e){
+            throw  new ApiRequestException("Unable to save list.", HttpStatus.BAD_REQUEST);
+        }
     }
     
     public void delete(int id) {
@@ -40,9 +57,14 @@ public class TaskListService {
         }
         
         TaskList taskList = byIdAndIsArchived.get();
-        taskList.setIsArchived(true);
+        User authenticatedUser = userService.getAuthenticatedUser();
+        if(!authenticatedUser.getId().equals(taskList.getUser().getId())){
+            throw  new ApiRequestException("You can not delete this list",HttpStatus.FORBIDDEN);
+        }
         
-        taskListRepository.save(taskList);
+        taskList.setIsArchived(true);
+    
+        save(taskList);
         taskItemService.deleteItemByListId(id);
         
     }
