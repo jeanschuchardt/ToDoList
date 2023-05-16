@@ -15,16 +15,14 @@ public class UserController {
         this.userService = userService;
     }
     
-    @GetMapping("/api/v1/users/{id}")
-    public User getUser(@PathVariable int id) {
-        return userService.getUser(id);
-    }
-    
     @PostMapping("/api/v1/users")
     public UserResponseDTO createUser(@RequestBody UserRequestDTO userRequest) {
         return userService.createUser(userRequest);
         
-        
+    }
+    @GetMapping("/api/v1/users/{id}")
+    public User getUser(@PathVariable int id) {
+        return userService.getUser(id);
     }
     
     @PutMapping("/api/v1/users/{id}")

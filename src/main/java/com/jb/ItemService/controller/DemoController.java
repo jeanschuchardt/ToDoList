@@ -8,10 +8,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/demo")
+@RequestMapping("/api/v1/test")
 public class DemoController {
     @GetMapping
-    public String authenticate(AuthenticationRequestDTO request) {
+    public String authenticate() {
         return "Hello.";
         
     }

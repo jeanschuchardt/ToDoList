@@ -25,7 +25,7 @@ public class SecurityConfig {
     private static final String[] USER_WHITELIST = {
             "/api/v1/authenticate/**",
             "/api/v1/users",
-            "/api/v1/demo/**"
+            "/api/v1/test/**"
     };
     
     private final JwtAuthenticationFilter jwtAuthFilter;
