@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 @Service
 public class TaskItemService {
@@ -41,6 +43,21 @@ public class TaskItemService {
     
     public TaskItem create(int listId, ItemListRequestDTO request) {
         isListPresent(listId);
+        if(Objects.nonNull(request.parentTaskId())){
+            Optional<TaskItem> byIdAndIsArchived = taskItemRepository.findByIdAndIsArchived(Math.toIntExact(request.parentTaskId()), false);
+            if(byIdAndIsArchived.isPresent()){
+                TaskItem taskItem = byIdAndIsArchived.get();
+                Long taskListId = taskItem.getTaskListId();
+                if(taskListId.intValue()!=listId){
+                    throw new ApiRequestException("Item parent id not belong to a item under this list.",
+                            HttpStatus.BAD_REQUEST);
+                }
+            }else{
+                throw new ApiRequestException("Item parent id not found.",
+                        HttpStatus.NOT_FOUND);
+            }
+        }
+        
         TaskItem taskItem = new TaskItem().setName(request.title())
                                           .setDescription(request.description())
                                           .setTaskListId((long) listId)

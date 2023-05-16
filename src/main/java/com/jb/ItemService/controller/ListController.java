@@ -2,13 +2,11 @@ package com.jb.ItemService.controller;
 
 import com.jb.ItemService.entity.TaskList;
 import com.jb.ItemService.record.ListRequestDTO;
-import com.jb.ItemService.record.TaskListResponseDTO;
 import com.jb.ItemService.service.TaskListService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -20,28 +18,29 @@ public class ListController {
     private final HttpServletRequest httpServletRequest;
     
     @GetMapping("/api/v1/lists")
-    public List<TaskListResponseDTO> getListById() {
+    public List<TaskList> getListById() {
         List<TaskList> all = taskListService.getAll();
-        List<TaskListResponseDTO> responseDTOS =  new ArrayList<>();
-        for (TaskList taskList : all) {
-            TaskListResponseDTO taskListResponseDTO = taskListService.mapResponse(taskList);
-            responseDTOS.add(taskListResponseDTO);
-        }
-        return responseDTOS;
+//        List<TaskListResponseDTO> responseDTOS =  new ArrayList<>();
+//        for (TaskList taskList : all) {
+//            TaskListResponseDTO taskListResponseDTO = taskListService.mapResponse(taskList);
+//            responseDTOS.add(taskListResponseDTO);
+//        }
+        return all;
     }
+    
     @GetMapping("/api/v1/lists/{id}")
-    public TaskListResponseDTO getListById(@PathVariable int id) {
+    public TaskList getListById(@PathVariable int id) {
         TaskList listById = taskListService.getListById(id);
-        TaskListResponseDTO taskListResponseDTO = taskListService.mapResponse(listById);
-        return taskListResponseDTO;
+//        TaskListResponseDTO taskListResponseDTO = taskListService.mapResponse(listById);
+        return listById;
     }
     
     @PostMapping("/api/v1/lists")
-    public TaskListResponseDTO post(@RequestBody ListRequestDTO requestDTO) {
+    public TaskList post(@RequestBody ListRequestDTO requestDTO) {
         TaskList list = taskListService.createList(requestDTO);
-        list = taskListService.getListById(list.getId().intValue());
-        TaskListResponseDTO taskListResponseDTO = taskListService.mapResponse(list);
-        return taskListResponseDTO;
+//        list = taskListService.getListById(list.getId().intValue());
+//        TaskListResponseDTO taskListResponseDTO = taskListService.mapResponse(list);
+        return list;
     }
     
     @DeleteMapping("/api/v1/lists/{id}")

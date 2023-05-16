@@ -21,11 +21,11 @@ public class User extends BaseEntity implements UserDetails {
     @Column
     private String password;
     
-    @OneToMany(mappedBy = "user")
-    private Set<TaskList> taskList = new HashSet<>();
-    
-    @OneToMany(mappedBy = "assignedUser")
-    private Set<TaskItem> itemsAssigned  = new HashSet<>();;
+//    @OneToMany(mappedBy = "user")
+//    private Set<TaskList> taskList = new HashSet<>();
+//
+//    @OneToMany(mappedBy = "assignedUser")
+//    private Set<TaskItem> itemsAssigned  = new HashSet<>();;
     
     @Enumerated(EnumType.STRING)
     private Role role;

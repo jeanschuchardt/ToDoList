@@ -14,23 +14,23 @@ public class TaskItem extends BaseEntity {
     @Column
     private String description;
     
-    @ManyToOne(optional = true)
-    @JoinColumn(name = "taskListId", insertable = false, updatable = false)
-    private TaskList taskList;
+//    @ManyToOne(optional = true)
+//    @JoinColumn(name = "taskListId", insertable = false, updatable = false)
+//    private TaskList taskList;
     
     @Column(nullable = false)
     private Long taskListId;
     
-    @ManyToOne
-    @JoinColumn(name = "assignedUserId", insertable = false, updatable = false)
-    private User assignedUser;
+//    @ManyToOne
+//    @JoinColumn(name = "assignedUserId", insertable = false, updatable = false)
+//    private User assignedUser;
     
     @Column
     private Long assignedUserId;
     
-    @OneToOne(optional = true)
-    @JoinColumn(name = "parentTaskId", insertable = false, updatable = false)
-    private TaskItem parentTask;
+//    @OneToOne(optional = true)
+//    @JoinColumn(name = "parentTaskId", insertable = false, updatable = false)
+//    private TaskItem parentTask;
     
     @Column(nullable = true)
     private Long parentTaskId;

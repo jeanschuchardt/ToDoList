@@ -62,7 +62,7 @@ public class TaskListService {
         TaskList taskList = byIdAndIsArchived.get();
         
         User authenticatedUser = userService.getAuthenticatedUser();
-        if(!authenticatedUser.getId().equals(taskList.getUser().getId())){
+        if(!authenticatedUser.getId().equals(taskList.getUserId())){
             throw  new ApiRequestException("You can not delete this list",HttpStatus.FORBIDDEN);
         }
         
@@ -92,9 +92,9 @@ public class TaskListService {
         return  allByUserIdAndIsArchived;
     }
     
-    public TaskListResponseDTO mapResponse(TaskList listById) {
-        return new TaskListResponseDTO(listById.getId(), listById.getName(),
-                new SimpleUserResponseDTO( listById.getUser().getId()
-                ,listById.getUser().getName(),listById.getUser().getEmail()));
-    }
+//    public TaskListResponseDTO mapResponse(TaskList listById) {
+////        return new TaskListResponseDTO(listById.getId(), listById.getName(),
+////                new SimpleUserResponseDTO( listById.getUserId()
+////                ,listById.getUser().getName(),listById.getUser().getEmail()));
+//    }
 }
